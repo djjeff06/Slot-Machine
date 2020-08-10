@@ -8,8 +8,6 @@ using UnityEngine.UI;
 public class GameControl : MonoBehaviour
 {
 
-    public static event Action ButtonPressed = delegate { };
-
     [SerializeField]
     private Text winningText;
 
@@ -20,7 +18,7 @@ public class GameControl : MonoBehaviour
 
     private bool resultsChecked = false;
     public static bool isSpinning;
-    private int[,] payoutValue;
+    private static int[,] payoutValue;
 
     public int playerBalance;
 
@@ -35,6 +33,7 @@ public class GameControl : MonoBehaviour
     public static bool isStopping;
 
     private static AudioSource audioSource;
+    private static String[] symbols;
     public AudioClip buttonClip;
     public AudioClip errorClip;
     public AudioClip winClip;
@@ -49,19 +48,20 @@ public class GameControl : MonoBehaviour
         betText.text = "" + currentBet;
         isStopping = false;
         audioSource = GetComponent<AudioSource>();
+        symbols = reels[0].symbols;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!reels[0].spinStopped && !reels[1].spinStopped && !reels[2].spinStopped && !reels[3].spinStopped && !reels[4].spinStopped)
+        if (!reels[0].IsSpinStopped() && !reels[1].IsSpinStopped() && !reels[2].IsSpinStopped() && !reels[3].IsSpinStopped() && !reels[4].IsSpinStopped())
         {
             prizeValue = 0;
             winningText.text = "Winnings: "+prizeValue;
             resultsChecked = false;
         }
 
-        if(reels[0].spinStopped && reels[1].spinStopped && reels[2].spinStopped && reels[3].spinStopped && reels[4].spinStopped && !resultsChecked)
+        if(reels[0].IsSpinStopped() && reels[1].IsSpinStopped() && reels[2].IsSpinStopped() && reels[3].IsSpinStopped() && reels[4].IsSpinStopped() && !resultsChecked)
         {
             CheckResults();
             winningText.enabled = true;
