@@ -49,6 +49,7 @@ public class GameControl : MonoBehaviour
         isStopping = false;
         audioSource = GetComponent<AudioSource>();
         symbols = reels[0].symbols;
+		Screen.orientation = ScreenOrientation.LandscapeLeft;
     }
 
     // Update is called once per frame
